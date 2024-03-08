@@ -76,18 +76,21 @@
                     <input type="text" placeholder="Informe sua idade" v-model="valorIdade">
                 </div>
 
-                <div v-if="valorIdade">Você é maior de idade: {{ eAdulto }}</div>
+                <div v-if="valorIdade">Você é maior de idade: {{ eAdulto ? 'Verdadeiro' : (eAdulto === false) ? 'Falso' : 'Isto não é um número' }}</div>
             </div>
     </div>
   </template>
   
   <script setup>
-  import { ref, reactive, computed, watchEffect } from 'vue'
+  import { ref, computed } from 'vue'
   
   const exercicioShow = ref(0);
   const contador = ref(0);
   const contador2 = ref(0);
   const valorIdade = ref(null);
+  const eAdulto = ref(computed(() =>  {
+    return (Number(valorIdade.value) >= 18) ? true : (Number(valorIdade.value) < 18) ? false : NaN
+  }))
 
   const soma = computed(() => {
     return contador.value + contador2.value
@@ -95,10 +98,6 @@
 
   const ePar = computed(() => {
     return ((contador.value + contador2.value) % 2 === 0) ? true : false
-  })
-
-  const eAdulto = computed(() => {
-    return (valorIdade.value >= 18) ? 'Verdadeiro!' : 'Falso!';
   })
   </script>
   
